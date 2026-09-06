@@ -19,8 +19,8 @@ export function generateAITags(p: Partial<Product>): string[] {
   if (c.includes('居家')) ['收納', '日用', '質感'].forEach(x => tags.add(x))
   if (c.includes('3c')) ['科技', '實用', '設計'].forEach(x => tags.add(x))
   if (c.includes('食品')) ['健康', '美味', '產地直送'].forEach(x => tags.add(x))
-  if (t.includes('保濕')) tags.add('保濕'), tags.add('清爽')
-  if (t.includes('噴霧')) tags.add('噴霧'), tags.add('噴頭')
+  if (t.includes('保濕')) { tags.add('保濕'); tags.add('清爽') }
+  if (t.includes('噴霧')) { tags.add('噴霧'); tags.add('噴頭') }
   while (tags.size < 5) tags.add('熱銷')
   return Array.from(tags).slice(0, 10)
 }

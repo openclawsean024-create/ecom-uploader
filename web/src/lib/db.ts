@@ -7,14 +7,14 @@ function read(): DBSchema {
   try {
     const raw = localStorage.getItem(KEY)
     if (raw) { const p = JSON.parse(raw); if (p && Array.isArray(p.products)) return p }
-  } catch {}
+  } catch { /* localStorage may be unavailable (SSR, private mode) */ }
   const defaultAccounts: Account[] = [
     { id: 'acc1', name: '王小明 個人賣家', shop: '生活選物', platforms: ['momo', 'Shopee', 'Yahoo'], enabled: true },
     { id: 'acc2', name: '美妝精緻選物店', shop: 'beauty_pick', platforms: ['momo', 'PChome', 'Shopee', 'Yahoo'], enabled: true },
   ]
   return { products: [], accounts: defaultAccounts, currentAccountId: 'acc1' }
 }
-function write(db: DBSchema) { try { localStorage.setItem(KEY, JSON.stringify(db)) } catch {} }
+function write(db: DBSchema) { try { localStorage.setItem(KEY, JSON.stringify(db)) } catch { /* localStorage may be unavailable */ } }
 
 export function seedDemoData() {
   const db = read()
@@ -56,7 +56,7 @@ export function listAccounts(): Account[] { return read().accounts }
 export function getCurrentAccountId(): string {
   try { return localStorage.getItem(CURR_KEY) ?? read().currentAccountId } catch { return read().currentAccountId }
 }
-export function setCurrentAccountId(id: string) { try { localStorage.setItem(CURR_KEY, id) } catch {} }
+export function setCurrentAccountId(id: string) { try { localStorage.setItem(CURR_KEY, id) } catch { /* localStorage may be unavailable */ } }
 
 
 export function saveAccount(a: Account) {
